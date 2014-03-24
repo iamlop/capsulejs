@@ -1,7 +1,8 @@
 {
   "name": "capsulejs",
   "version": "1.0.1",
-  "description": "Capsule pack and deploy",
+  "description": "Easy deploy from git (bitbucket/github) to web server",
+  "homepage": "https://github.com/iamlop/capsulejs",
   "main": "./lib/capsule",
   "dependencies": {
     "optimist": "^0.6.1",
@@ -16,7 +17,12 @@
   "repository": {
     "url": "git://github.com/iamlop/capsulejs.js"
   },
+  "bugs": {
+    "url": "https://github.com/iamlop/capsulejs/issues",
+    "email": "iamlop@imageslum.net"
+  },
   "bin": {
     "capsulejs": "./bin/app"
-  }
+  },
+  "license": "MIT"
 }
