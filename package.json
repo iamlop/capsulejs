@@ -1,0 +1,23 @@
+{
+  "name": "capsulejs",
+  "version": "1.0.0",
+  "description": "Capsule pack and deploy",
+  "main": "./lib/capsule",
+  "dependencies": {
+    "optimist": "^0.6.1",
+    "simple-ssh": "^0.7.4",
+    "underscore": "^1.6.0",
+    "colors": "^0.6.2",
+    "fs-extra": "^0.8.1"
+  },
+  "author": {
+    "name": "๋Jutirat Tokul",
+    "email": "iamlop@imageslum.net"
+  },
+  "repository": {
+    "url": "https://github.com/iamlop/capsulejs"
+  },
+  "bin": {
+    "capsulejs": "./bin/app"
+  }
+}
