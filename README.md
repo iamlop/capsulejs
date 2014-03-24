@@ -1,6 +1,8 @@
 capsulejs
 =========
 
+[![NPM](https://nodei.co/npm/capsulejs.png)](https://nodei.co/npm/capsulejs/)
+
 
 <h2>Install</h2>
 <pre>
