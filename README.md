@@ -1,21 +1,28 @@
 capsulejs
 =========
 
+Easy deploy code from git (bitbucket/github) to you web server
 
-<h2>Install</h2>
-<pre>
-    <code>npm install -g capsultjs</code>
-</pre>
+[![NPM](https://nodei.co/npm/capsulejs.png)](https://nodei.co/npm/capsulejs/)
 
-<h2>Initial configuration</h2>
-<pre>
-    <code>capsultjs init</code>
-</pre>
-<p>Capsulejs should generate capsule.json in current folder</p>
-<h3>default capsule.json<h3>
 
-<pre>
-    <code>
+Install
+---
+
+```sh
+    npm install -g capsultjs
+```
+
+Initial configuration
+---
+```sh
+capsultjs init
+```
+
+** Capsulejs should generate capsule.json in current folder
+### default capsule.json
+
+```json
     {
         "prod" : {                  //Specify collection name
             "server": {
@@ -32,22 +39,40 @@ capsulejs
             }
         }
     }
-    </code>
-</pre>
+```
 
-<h2>Deploy from git</h2>
-<pre>
-    <code>capsulejs deploy <collection name></code>
-</pre>
-<h3>Example code</h3>
-<pre>
-    <code>capsulejs deploy prod</code>
-</pre>
-<h2>Rollback to previous version</h2>
-<pre>
-<code>capsulejs rollback <collection name></code>
-</pre>
-<h3>Example code</h3>
-<pre>
-    <code>capsulejs rollback prod</code>
-</pre>
+Deploy from git
+---
+```sh
+capsulejs deploy <collection name>
+```
+###Example code
+
+```sh
+capsulejs deploy prod
+```
+
+Rollback to previous version
+---
+```sh
+capsulejs rollback <collection name>
+```
+
+###Example code
+```sh
+capsulejs rollback prod
+```
+
+
+License
+----
+
+MIT
+
+Changelogs
+---
+###1.0.2
+- Add document and to README.md
+
+###1.0.1
+- Start project and publish to npm server
