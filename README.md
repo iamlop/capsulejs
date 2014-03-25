@@ -10,7 +10,7 @@ Install
 ---
 
 ```sh
-    npm install -g capsultjs
+npm install -g capsultjs
 ```
 
 Initial configuration
