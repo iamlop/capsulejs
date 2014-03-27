@@ -10,13 +10,13 @@ Install
 ---
 
 ```sh
-npm install -g capsultjs
+npm install -g capsulejs
 ```
 
 Initial configuration
 ---
 ```sh
-capsultjs init
+capsulejs init
 ```
 
 ** Capsulejs should generate capsule.json in current folder
@@ -65,7 +65,7 @@ capsulejs rollback prod
 
 
 License
-----
+---
 
 MIT
 
