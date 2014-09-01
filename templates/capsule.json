@@ -11,6 +11,11 @@
         "repository": {
             "host": "",
             "branch": "master"
+        },
+        "command": {
+            "post": {
+                "command_name" : ""
+            }
         }
     }
 }

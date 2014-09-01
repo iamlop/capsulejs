@@ -5,6 +5,7 @@ var fs = require('fs');
 var SSH = require('simple-ssh');
 var _ = require('underscore');
 var colors = require('colors');
+var async = require('async'); 
 
 var capsule = function() {};
 
@@ -40,7 +41,7 @@ capsule.prototype.connect = function(server) {
 capsule.prototype.parseConfig  = function(target){
     var config = require(process.cwd() + '/capsule.json');
 
-    if (config[target] === undefined) {
+    if (typeof config[target] === undefined) {
         process.exit('Error uundefined server');
     }
 
@@ -50,6 +51,7 @@ capsule.prototype.parseConfig  = function(target){
     params.directory = _.now();
     params.full_path =  params.server.location + '/' +   params.directory;
     params.git_branch = config[target].repository.branch || 'master';
+    params.post_command = config[target].command.post;
 
     return params;
 };
@@ -66,13 +68,11 @@ capsule.prototype.deploy = function(target) {
         })
         .exec('git clone', {
             args: [params.git_server.host, params.directory, '-b ' + params.git_branch],
-            out: function(stdout) {
-                if(stdout !== undefined) {
-                    console.log(stdout);
-                }
+            out: console.log,
+            exit: function() {
                 capsule.simlink(params.server, params.full_path);
-                capsule.setOwner(params.server, params.full_path);
-            },
+                capsule.postCommand(params.server, params.full_path, params.post_command);
+            }
         })
         .start();
 };
@@ -88,16 +88,20 @@ capsule.prototype.simlink = function(server, destination) {
         .start();
 };
 
-capsule.prototype.setOwner = function(server, target) {
+capsule.prototype.postCommand = function(server, realpath, commands) {
     var ssh = this.connect(server);
 
-    ssh
-        .exec('chown -R', {
-            args: [server.user_group, target],
-            out: console.log
-        })
-        .start();
-}
+    for (var command in commands) {
+        var cmd = commands[command];
+        var cmd_with_pull_path = cmd.replace(/{dir}/g, realpath);
+
+        ssh
+            .exec(cmd_with_pull_path, {
+                out: console.log
+            });
+    };
+    ssh.start();
+};
 
 capsule.prototype.rollback = function(target) {
     var params = this.parseConfig(target),
@@ -117,14 +121,15 @@ capsule.prototype.rollback = function(target) {
                     prev = (files[1]) ? params.server.location + '/' +  files[1] : null;
 
                 capsule.simlink(params.server, prev);
-                capsule.deleteDir(params.server, current);
+                capsule.deleteDir(current);
             }
         })
         .start();
 };
 
-capsule.prototype.deleteDir = function(server, target) {
-    var ssh = this.connect(server);
+capsule.prototype.deleteDir = function(target) {
+    var params = this.parseConfig(target),
+        ssh = this.connect(params.server);
 
     ssh
         .exec('rm -rf', {
