@@ -36,6 +36,11 @@ capsulejs init
             "repository": {
                 "host": "",         //Git url ex: ssh://git@github.com/foo/bar.git
                 "branch": "master"
+            },
+            "command": {
+                "post": {
+                    "Command_name": ""  //Add unix command run after cloned
+                }
             }
         }
     }
