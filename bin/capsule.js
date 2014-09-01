@@ -5,7 +5,6 @@ var fs = require('fs');
 var SSH = require('simple-ssh');
 var _ = require('underscore');
 var colors = require('colors');
-var async = require('async'); 
 
 var capsule = function() {};
 
