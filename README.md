@@ -39,7 +39,7 @@ capsulejs init
             },
             "command": {
                 "post": {
-                    "Command_name": ""  //Add unix command run after cloned
+                    "Command_name": ""  //Add unix command run after cloned; use {dir} = current directory 
                 }
             }
         }
