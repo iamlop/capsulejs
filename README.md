@@ -77,7 +77,7 @@ MIT
 Changelogs
 ---
 ###1.1.0
-- Add post command execute after pull
+- Add post command execute after clone
 
 ###1.0.2
 - Add document and to README.md
