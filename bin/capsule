@@ -37,11 +37,11 @@ capsule.prototype.connect = function(server) {
     return ssh;
 };
 
-capsule.prototype.parseConfig  = function(target){
+capsule.prototype.parseConfig  = function(target) {
     var config = require(process.cwd() + '/capsule.json');
 
     if (typeof config[target] === undefined) {
-        process.exit('Error uundefined server');
+        process.exit('Error undefined server');
     }
 
     var params = {};
@@ -116,19 +116,18 @@ capsule.prototype.rollback = function(target) {
                     return a < b;
                 });
 
-                var current = (files[0]) ? params.server.location + '/' + files[0] : null,
-                    prev = (files[1]) ? params.server.location + '/' +  files[1] : null;
+                var current = (files[0]) ? params.server.location + '/' + files[0] : null;
+                var prev = (files[1]) ? params.server.location + '/' +  files[1] : null;
 
                 capsule.simlink(params.server, prev);
-                capsule.deleteDir(current);
+                capsule.deleteDir(params.server, current);
             }
         })
         .start();
 };
 
-capsule.prototype.deleteDir = function(target) {
-    var params = this.parseConfig(target),
-        ssh = this.connect(params.server);
+capsule.prototype.deleteDir = function(server, target) {
+    var ssh = this.connect(server);
 
     ssh
         .exec('rm -rf', {

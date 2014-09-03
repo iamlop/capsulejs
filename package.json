@@ -1,6 +1,6 @@
 {
   "name": "capsulejs",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Easy deploy from git (bitbucket/github) to web server",
   "homepage": "https://github.com/iamlop/capsulejs",
   "main": "./lib/capsule",
@@ -24,5 +24,6 @@
   "bin": {
     "capsulejs": "./bin/app"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "private": false
 }
