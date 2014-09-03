@@ -76,6 +76,9 @@ MIT
 
 Changelogs
 ---
+###1.1.1
+- Fix delete dir error when rollback
+
 ###1.1.0
 - Add post command execute after clone
 
