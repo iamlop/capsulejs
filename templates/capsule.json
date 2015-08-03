@@ -1,0 +1,21 @@
+{
+    "prod" : {
+        "server": {
+            "host": "",
+            "user": "",
+            "password": "",
+            "location": "",
+            "simlink": "",
+            "user_group": ""
+        },
+        "repository": {
+            "host": "",
+            "branch": "master"
+        },
+        "command": {
+            "post": {
+                "command_name" : ""
+            }
+        }
+    }
+}
