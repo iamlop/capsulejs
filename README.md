@@ -76,6 +76,9 @@ MIT
 
 Changelogs
 ---
+###1.1.2
+- Fix depth for git clone
+
 ###1.1.1
 - Fix delete dir error when rollback
 
