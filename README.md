@@ -28,7 +28,8 @@ capsulejs init
             "server": {
                 "host": "",
                 "user": "",
-                "password": "",
+                "password": "",     // ssh login password when set private_key is blank
+                "private_key": "",  // Private key path when set password is blank
                 "location": "",     // Git clone to container folder
                 "simlink": "",      // Webserver document root each domain
                 "user_group": ""    // User group ex: www-data:www-data
@@ -39,7 +40,7 @@ capsulejs init
             },
             "command": {
                 "post": {
-                    "Command_name": ""  //Add unix command run after cloned; use {dir} = current directory 
+                    "Command_name": ""  //Add unix command run after cloned; use {dir} = current directory
                 }
             }
         }
@@ -51,7 +52,7 @@ Deploy from git
 ```sh
 capsulejs deploy <collection name>
 ```
-###Example code
+### Example code
 
 ```sh
 capsulejs deploy prod
@@ -63,7 +64,7 @@ Rollback to previous version
 capsulejs rollback <collection name>
 ```
 
-###Example code
+### Example code
 ```sh
 capsulejs rollback prod
 ```
@@ -76,17 +77,21 @@ MIT
 
 Changelogs
 ---
-###1.1.2
+
+#### 1.2.1
+- Support ssh private key
+
+#### 1.1.2
 - Fix depth for git clone
 
-###1.1.1
+#### 1.1.1
 - Fix delete dir error when rollback
 
-###1.1.0
+#### 1.1.0
 - Add post command execute after clone
 
-###1.0.2
+#### 1.0.2
 - Add document and to README.md
 
-###1.0.1
+#### 1.0.1
 - Start project and publish to npm server

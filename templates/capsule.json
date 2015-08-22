@@ -4,6 +4,7 @@
             "host": "",
             "user": "",
             "password": "",
+            "private_key": "",
             "location": "",
             "simlink": "",
             "user_group": ""
