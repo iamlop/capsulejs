@@ -28,7 +28,8 @@ capsulejs init
             "server": {
                 "host": "",
                 "user": "",
-                "password": "",
+                "password": "",     // ssh login password when set private_key is blank
+                "private_key": "",  // Private key path when set password is blank
                 "location": "",     // Git clone to container folder
                 "simlink": "",      // Webserver document root each domain
                 "user_group": ""    // User group ex: www-data:www-data
@@ -39,7 +40,7 @@ capsulejs init
             },
             "command": {
                 "post": {
-                    "Command_name": ""  //Add unix command run after cloned; use {dir} = current directory 
+                    "Command_name": ""  //Add unix command run after cloned; use {dir} = current directory
                 }
             }
         }
@@ -76,6 +77,10 @@ MIT
 
 Changelogs
 ---
+
+###1.2.1
+- Support ssh private key
+
 ###1.1.2
 - Fix depth for git clone
 
