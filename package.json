@@ -1,6 +1,6 @@
 {
   "name": "capsulejs",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Easy deploy from git (bitbucket/github) to web server",
   "homepage": "https://github.com/iamlop/capsulejs",
   "main": "./lib/capsule",
