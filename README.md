@@ -78,6 +78,9 @@ MIT
 Changelogs
 ---
 
+#### 1.2.2
+- Support ssh passphrase
+
 #### 1.2.1
 - Support ssh private key
 
