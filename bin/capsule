@@ -59,7 +59,7 @@ capsule.prototype.parseConfig  = function(target) {
     params.server = config[target].server;
     params.git_server = config[target].repository;
     params.directory = _.now();
-    params.full_path =  params.server.location + '/' +   params.directory;
+    params.full_path =  params.server.location + '/' + params.directory;
     params.git_branch = config[target].repository.branch || 'master';
     params.post_command = config[target].command.post;
 
@@ -77,8 +77,8 @@ capsule.prototype.deploy = function(target) {
         ssh = this.connect(params.server),
         capsule = this;
 
-    console.log('Start deploy'.green);
-
+    var text_status = 'Start deploy ' + target;
+    console.log(text_status.green);
     ssh
         .exec('mkdir', {
             args: [params.directory],
