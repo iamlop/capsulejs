@@ -11,7 +11,11 @@ switch (args[0]) {
         c.init();
         break;
     case 'deploy':
-        c.deploy(args[1]);
+        if (args.length > 1) {
+            for (var i = 1, len = args.length; i < len; i++) {
+                (new capsule.capsule()).deploy(args[i]);
+            }
+        }
         break;
     case 'rollback':
         c.rollback(args[1]);
