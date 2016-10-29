@@ -5,10 +5,11 @@
   "homepage": "https://github.com/iamlop/capsulejs",
   "main": "./lib/capsule",
   "dependencies": {
+    "async": "^2.1.2",
+    "colors": "^0.6.2",
     "optimist": "^0.6.1",
     "simple-ssh": "^0.7.4",
-    "underscore": "^1.6.0",
-    "colors": "^0.6.2"
+    "underscore": "^1.6.0"
   },
   "author": {
     "name": "๋Jutirat Tokul",
