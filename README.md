@@ -77,6 +77,8 @@ MIT
 
 Changelogs
 ---
+#### 1.2.4
+- Show status post command
 
 #### 1.2.3
 - Deploy multi server
