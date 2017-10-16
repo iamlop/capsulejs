@@ -50,7 +50,7 @@ capsulejs init
 Deploy from git
 ---
 ```sh
-capsulejs deploy <collection name>
+capsulejs deploy <collection name> [<collection name> ... <collection name>]
 ```
 ### Example code
 
@@ -77,6 +77,14 @@ MIT
 
 Changelogs
 ---
+#### 1.2.5
+- Fix bug show status post command
+
+#### 1.2.4
+- Show status post command
+
+#### 1.2.3
+- Deploy multi server
 
 #### 1.2.2
 - Support ssh passphrase
