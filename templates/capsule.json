@@ -1,7 +1,7 @@
 {
     "prod" : {
         "server": {
-            "host": "",
+            "host": [],
             "user": "",
             "password": "",
             "private_key": "",

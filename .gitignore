@@ -6,7 +6,8 @@ lib-cov
 *.out
 *.pid
 *.gz
-/capsult.json
+/capsule.json
+*.editorconfig
 
 pids
 logs

@@ -26,7 +26,7 @@ capsulejs init
     {
         "prod" : {                  //Specify collection name
             "server": {
-                "host": "",
+                "host": [], // ex. ["127.0.0.1", "127.0.0.1"]
                 "user": "",
                 "password": "",     // ssh login password when set private_key is blank
                 "private_key": "",  // Private key path when set password is blank
@@ -77,6 +77,8 @@ MIT
 
 Changelogs
 ---
+#### 1.3
+- Server ip config with array
 
 #### 1.2.3
 - Deploy multi server
