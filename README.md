@@ -58,8 +58,9 @@ capsulejs init
             },
             "command": {
                 "post": {
-                    "Command_name": ""  //Add unix command run after cloned; use {dir} = current directory
-                    //Ex. "config": "mv {dir}/application/cconfig_production.php {dir}/application/cconfig.php"
+                    "Command_name": ""  //Add unix command run after cloned; use {dir} will automatic replace with deployed directory
+                    //Ex. "config": "mv {dir}/config/config_production.php {dir}/config/config.php" 
+                    //From structure {dir} = /var/www/source_test1/2016-01-07_09-09-09 
                 }
             }
         }
@@ -100,7 +101,7 @@ Changelogs
 - Server ip config with array
 - Remove muti collaction deploy
 - Add limit verions store in server
-- 
+- Specify ip with --ip <server ip> when deploy
 
 #### 1.2.3
 - Deploy multi server
