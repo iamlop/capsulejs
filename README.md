@@ -97,7 +97,7 @@ MIT
 
 Changelogs
 ---
-#### 1.3
+#### 1.3.0
 - Server ip config with array
 - Remove muti collaction deploy
 - Add limit verions store in server
