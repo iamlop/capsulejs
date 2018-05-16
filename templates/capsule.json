@@ -1,13 +1,14 @@
 {
     "prod" : {
         "server": {
-            "host": "",
+            "host": [],
             "user": "",
             "password": "",
             "private_key": "",
             "location": "",
             "simlink": "",
-            "user_group": ""
+            "user_group": "",
+            "version_limit": 3
         },
         "repository": {
             "host": "",

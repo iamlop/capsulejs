@@ -11,6 +11,23 @@ Install
 
 ```sh
 npm install -g capsulejs
+
+```
+
+Directory structure illustration 
+---
+```sh
+  var/
+  └──web/
+      ├───test1.com/            <--- Document root (simlink to /var/web/source_test1/2016-01-07_09-09-09)
+      ├───test2.com/            <--- Document root (simlink to /varweb/source_test1/2016-03-07_09-09-09)
+      ├───source_test1/
+      │   ├───2016-01-02_09-00-00/
+      │   ├───2016-01-05_09-09-09/
+      │   └───2016-01-07_09-09-09/
+      └───source_test2/
+          └───2016-03-07_09-09-09/
+
 ```
 
 Initial configuration
@@ -26,21 +43,24 @@ capsulejs init
     {
         "prod" : {                  //Specify collection name
             "server": {
-                "host": "",
+                "host": [],         // Ex. ["127.0.0.1", "127.0.0.1"]
                 "user": "",
                 "password": "",     // ssh login password when set private_key is blank
                 "private_key": "",  // Private key path when set password is blank
-                "location": "",     // Git clone to container folder
-                "simlink": "",      // Webserver document root each domain
-                "user_group": ""    // User group ex: www-data:www-data
+                "location": "",     // Git clone to container folder Ex. "/var/web/source_test1" or "/var/web/source_test2"
+                "simlink": "",      // Webserver document root each domain Ex. "/var/web/test1.com" or "/var/web/test2.com"
+                "user_group": "",   // User group Ex: www-data:www-data
+                "version_limit": 3  // Maximum file version on server
             },
             "repository": {
-                "host": "",         //Git url ex: ssh://git@github.com/foo/bar.git
+                "host": "",         //Git url Ex: ssh://git@github.com/foo/bar.git
                 "branch": "master"
             },
             "command": {
                 "post": {
-                    "Command_name": ""  //Add unix command run after cloned; use {dir} = current directory
+                    "Command_name": ""  //Add unix command run after cloned; use {dir} will automatic replace with deployed directory
+                    //Ex. "config": "mv {dir}/config/config_production.php {dir}/config/config.php" 
+                    //From structure {dir} = /var/www/source_test1/2016-01-07_09-09-09 
                 }
             }
         }
@@ -50,7 +70,7 @@ capsulejs init
 Deploy from git
 ---
 ```sh
-capsulejs deploy <collection name> [<collection name> ... <collection name>]
+capsulejs deploy <collection name>
 ```
 ### Example code
 
@@ -77,11 +97,11 @@ MIT
 
 Changelogs
 ---
-#### 1.2.5
-- Fix bug show status post command
-
-#### 1.2.4
-- Show status post command
+#### 1.3
+- Server ip config with array
+- Remove muti collaction deploy
+- Add limit verions store in server
+- Specify ip with --ip <server ip> when deploy
 
 #### 1.2.3
 - Deploy multi server
