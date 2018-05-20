@@ -1,8 +1,14 @@
 {
   "name": "capsulejs",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "Easy deploy, rollback from git (bitbucket/github) to web server",
-  "homepage": "https://github.com/iamlop/capsulejs",
+  "homepage": "https://github.com/iamlop/capsule.js",
+  "keywords": [
+    "deploy",
+    "git deploy",
+    "automatic deploy",
+    "deploy script"
+  ],
   "main": "./lib/capsule",
   "engines": {
     "node": ">=8.0.0"

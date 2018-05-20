@@ -3,9 +3,6 @@ capsulejs
 
 Easy deploy code from git (bitbucket/github) to you web server
 
-[![NPM](https://nodei.co/npm/capsulejs.png)](https://nodei.co/npm/capsulejs/)
-
-
 Install
 ---
 
@@ -39,7 +36,7 @@ capsulejs init
 ** Capsulejs should generate capsule.json in current folder
 ### default capsule.json
 
-```json
+```sh
     {
         "prod" : {                  //Specify collection name
             "server": {
@@ -70,7 +67,7 @@ capsulejs init
 Deploy from git
 ---
 ```sh
-capsulejs deploy <collection name>
+capsulejs deploy <collection name> [--ip <server ip>]
 ```
 ### Example code
 
@@ -97,6 +94,10 @@ MIT
 
 Changelogs
 ---
+#### 1.3.1
+- Edit Readme
+- You can use command "capsulejs version" check installed version 
+
 #### 1.3.0
 - Server ip config with array
 - Remove muti collaction deploy
