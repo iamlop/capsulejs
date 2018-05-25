@@ -29,14 +29,14 @@ Directory structure illustration
 
 Initial configuration
 ---
-```sh
-capsulejs init
+```
+capsulejs init [--config <filename.json>]
 ```
 
 ** Capsulejs should generate capsule.json in current folder
 ### default capsule.json
 
-```sh
+```javascript
     {
         "prod" : {                  //Specify collection name
             "server": {
@@ -66,25 +66,34 @@ capsulejs init
 
 Deploy from git
 ---
-```sh
-capsulejs deploy <collection name> [--ip <server ip>]
+```
+capsulejs deploy <collection name> [--ip <server ip> [--config <filename.json>]]
 ```
 ### Example code
 
-```sh
+```
 capsulejs deploy prod
 ```
 
+#### Deploy options
+- `--config` : Specify config filename
+- `--ip :` Specify Server ip
+
+
 Rollback to previous version
 ---
-```sh
+```
 capsulejs rollback <collection name>
 ```
 
 ### Example code
-```sh
+```
 capsulejs rollback prod
 ```
+
+#### Rollback options
+- `--config` : Specify config filename
+
 
 
 License
@@ -94,6 +103,9 @@ MIT
 
 Changelogs
 ---
+###1.3.2
+- Specify config file with `--config <filename.json>`
+
 #### 1.3.1
 - Edit Readme
 - You can use command "capsulejs version" check installed version 
@@ -102,7 +114,7 @@ Changelogs
 - Server ip config with array
 - Remove muti collaction deploy
 - Add limit verions store in server
-- Specify ip with --ip <server ip> when deploy
+- Specify ip with `--ip <server ip>` when deploy
 
 #### 1.2.3
 - Deploy multi server
