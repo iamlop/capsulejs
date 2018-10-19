@@ -17,7 +17,7 @@ Directory structure illustration
   var/
   └──web/
       ├───test1.com/            <--- Document root (simlink to /var/web/source_test1/2016-01-07_09-09-09)
-      ├───test2.com/            <--- Document root (simlink to /varweb/source_test1/2016-03-07_09-09-09)
+      ├───test2.com/            <--- Document root (simlink to /var/web/source_test1/2016-03-07_09-09-09)
       ├───source_test1/
       │   ├───2016-01-02_09-00-00/
       │   ├───2016-01-05_09-09-09/
