@@ -3,9 +3,6 @@ capsulejs
 
 Easy deploy code from git (bitbucket/github) to you web server
 
-[![NPM](https://nodei.co/npm/capsulejs.png)](https://nodei.co/npm/capsulejs/)
-
-
 Install
 ---
 
@@ -20,7 +17,7 @@ Directory structure illustration
   var/
   └──web/
       ├───test1.com/            <--- Document root (simlink to /var/web/source_test1/2016-01-07_09-09-09)
-      ├───test2.com/            <--- Document root (simlink to /varweb/source_test1/2016-03-07_09-09-09)
+      ├───test2.com/            <--- Document root (simlink to /var/web/source_test1/2016-03-07_09-09-09)
       ├───source_test1/
       │   ├───2016-01-02_09-00-00/
       │   ├───2016-01-05_09-09-09/
@@ -32,14 +29,14 @@ Directory structure illustration
 
 Initial configuration
 ---
-```sh
-capsulejs init
+```
+capsulejs init [--config <filename.json>]
 ```
 
 ** Capsulejs should generate capsule.json in current folder
 ### default capsule.json
 
-```json
+```javascript
     {
         "prod" : {                  //Specify collection name
             "server": {
@@ -69,25 +66,34 @@ capsulejs init
 
 Deploy from git
 ---
-```sh
-capsulejs deploy <collection name>
+```
+capsulejs deploy <collection name> [--ip <server ip> [--config <filename.json>]]
 ```
 ### Example code
 
-```sh
+```
 capsulejs deploy prod
 ```
 
+#### Deploy options
+- `--config` : Specify config filename
+- `--ip :` Specify Server ip
+
+
 Rollback to previous version
 ---
-```sh
+```
 capsulejs rollback <collection name>
 ```
 
 ### Example code
-```sh
+```
 capsulejs rollback prod
 ```
+
+#### Rollback options
+- `--config` : Specify config filename
+
 
 
 License
@@ -97,11 +103,18 @@ MIT
 
 Changelogs
 ---
-#### 1.3
+###1.3.2
+- Specify config file with `--config <filename.json>`
+
+#### 1.3.1
+- Edit Readme
+- You can use command "capsulejs version" check installed version 
+
+#### 1.3.0
 - Server ip config with array
 - Remove muti collaction deploy
 - Add limit verions store in server
-- Specify ip with --ip <server ip> when deploy
+- Specify ip with `--ip <server ip>` when deploy
 
 #### 1.2.3
 - Deploy multi server
