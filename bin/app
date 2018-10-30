@@ -31,4 +31,7 @@ switch (args[0]) {
   case 'version':
     console.log((`Capsulejs version: ${info.version}`).green.bold);
     break;
+  default:
+    console('Invalid Command'.red.bold);
+    break;
 }
