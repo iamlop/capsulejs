@@ -103,7 +103,7 @@ MIT
 
 Changelogs
 ---
-###1.3.2
+### 1.3.2
 - Specify config file with `--config <filename.json>`
 
 #### 1.3.1
