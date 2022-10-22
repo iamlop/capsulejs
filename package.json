@@ -14,7 +14,7 @@
     "node": ">=8.0.0"
   },
   "dependencies": {
-    "async": "^2.6.0",
+    "async": ">=3.2.4",
     "colors": ">=0.6.2",
     "dayjs": ">=1.5.24",
     "optimist": ">=0.6.1",
