@@ -20,7 +20,7 @@
     "optimist": "^0.6.1",
     "ora": "^2.1.0",
     "ssh2-promise": ">=0.0.9",
-    "underscore": "^1.6.0"
+    "underscore": ">=1.6.0"
   },
   "author": {
     "name": "๋Jutirat Tokul",
