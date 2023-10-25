@@ -14,13 +14,13 @@
     "node": ">=8.0.0"
   },
   "dependencies": {
-    "async": ">=3.2.4",
-    "colors": ">=0.6.2",
-    "dayjs": ">=1.5.24",
+    "async": "^3.2.4",
+    "colors": "^1.4.0",
+    "dayjs": ">=1.11.10",
     "optimist": ">=0.6.1",
-    "ora": "^2.1.0",
-    "ssh2-promise": ">=0.0.9",
-    "underscore": ">=1.6.0"
+    "ora": "^7.0.1",
+    "ssh2-promise": ">=1.0.3",
+    "underscore": ">=1.13.6"
   },
   "author": {
     "name": "๋Jutirat Tokul",
