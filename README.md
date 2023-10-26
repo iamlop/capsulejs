@@ -38,7 +38,7 @@ capsulejs init [--config <filename.json>]
 
 ```javascript
     {
-        "prod" : {                  //Specify collection name
+        "prod" : {                  // Specify collection name
             "server": {
                 "host": [],         // Ex. ["127.0.0.1", "127.0.0.1"]
                 "user": "",
@@ -50,14 +50,15 @@ capsulejs init [--config <filename.json>]
                 "version_limit": 3  // Maximum file version on server
             },
             "repository": {
-                "host": "",         //Git url Ex: ssh://git@github.com/foo/bar.git
+                "host": "",         // Git repo url Ex: ssh://git@github.com/foo/bar.git
                 "branch": "master"
             },
             "command": {
                 "post": {
-                    "Command_name": ""  //Add unix command run after cloned; use {dir} will automatic replace with deployed directory
-                    //Ex. "config": "mv {dir}/config/config_production.php {dir}/config/config.php" 
-                    //From structure {dir} = /var/www/source_test1/2016-01-07_09-09-09 
+                    "Command_name": "" 
+                    // Add unix command run after cloned; use {dir} will automatic replace with deployed directory
+                    // Ex. "config": "mv {dir}/config/config_production.php {dir}/config/config.php" 
+                    // From structure {dir} = /var/www/source_test1/2016-01-07_09-09-09 
                 }
             }
         }
@@ -77,7 +78,7 @@ capsulejs deploy prod
 
 #### Deploy options
 - `--config` : Specify config filename
-- `--ip :` Specify Server ip
+- `--ip` : Specify Server ip
 
 
 Rollback to previous version
