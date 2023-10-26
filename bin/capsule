@@ -1,276 +1,274 @@
 #!/usr/bin/env node
 'use strict';
 
-const fs = require('fs');
-const _ = require('underscore');
-const async = require('async');
-const SSH2Promise = require('ssh2-promise');
-const colors = require('colors');
-const dayjs = require('dayjs');
-const ora = require('ora');
+const fs = require('fs')
+const _ = require('underscore')
+const async = require('async')
+const SSH2Promise = require('ssh2-promise')
+const colors = require('colors')
+const dayjs = require('dayjs')
+const ora = require('ora')
+
 
 module.exports = class Capsule {
-  constructor() { }
+  constructor () {}
 
   init(config = null) {
-    config = (typeof (config) === 'string') ? config : 'capsule.json';
-    let targetFile = process.cwd() + '/' + config,
-      sourceFile = __dirname + '/../templates/capsule.json';
+    config = (typeof(config) === 'string') ? config : 'capsule.json'
+    let targetFile = process.cwd() + '/' + config
+    let sourceFile = __dirname + '/../templates/capsule.json'
 
     if (fs.existsSync(targetFile)) {
-      console.log(`File ${config} exist`.red);
+      console.log(`File ${config} exist`.red)
     } else {
-      fs.writeFileSync(targetFile, fs.readFileSync(sourceFile));
-      console.log('DONE'.rainbow.bold);
+      fs.writeFileSync(targetFile, fs.readFileSync(sourceFile))
+      console.log('DONE'.rainbow.bold)
     }
-
-  };
+  }
 
   async parseConfig(target, configName = null) {
     return new Promise(async function (resolve, reject) {
-      configName = (typeof (configName) === 'string') ? configName : 'capsule.json';
-      let configFilePath = process.cwd() + '/' + configName;
-      let config = null;
-      let params = {};
+      configName = (typeof(configName) === 'string') ? configName : 'capsule.json'
+      let configFilePath = process.cwd() + '/' + configName
+      let config = null
+      let params = {}
 
       if (fs.existsSync(configFilePath) == false) {
-        reject('Error config file not exist');
-        return;
+        reject('Error config file not exist')
+        return
       }
 
-      config = require(configFilePath);
+      config = require(configFilePath)
 
       if (typeof config[target] === 'undefined') {
-        reject('Error undefined server');
-        return;
+        reject('Error undefined server')
+        return
       }
 
+      const formatDir = dayjs().format('YYYY-MM-DD_HH-mm-ss')
 
-      let currentdate = new Date();
-      let formatDir = dayjs().format('YYYY-MM-DD_HH-mm-ss');
+      params.server = config[target].server
+      params.git_server = config[target].repository
+      params.directory = formatDir
+      params.full_path = params.server.location + '/' + params.directory
+      params.git_branch = config[target].repository.branch || 'master'
+      params.prepare_config = config[target].command.prepare_config || null
+      params.post_command = config[target].command.post || null
 
-      params.server = config[target].server;
-      params.git_server = config[target].repository;
-      params.directory = formatDir;
-      params.full_path = params.server.location + '/' + params.directory;
-      params.git_branch = config[target].repository.branch || 'master';
-      params.prepare_config = config[target].command.prepare_config || null;
-      params.post_command = config[target].command.post || null;
-
-      resolve(params);
-    });
+      resolve(params)
+    })
   }
 
-  async connect(server) {
+  async connect(server, debug) {
     return new Promise(async function (resolve, reject) {
       let options = {
         host: server.host,
         port: server.port || 22,
         username: server.user,
         baseDir: server.location
-      };
-
-      if (typeof server.password === 'undefined' && typeof server.private_key !== 'undefined') {
-        options.identity = server.private_key;
-      } else if (typeof server.password !== 'undefined') {
-        options.password = server.password;
       }
 
-      const ssh = new SSH2Promise(options);
-      await ssh.connect();
-      console.log('Connected'.blue);
+      if (typeof server.password === 'undefined' && typeof server.private_key !== 'undefined') {
+        options.identity = server.private_key
+      } else if (typeof server.password !== 'undefined') {
+        options.password = server.password
+      }
 
-      resolve(ssh);
-    });
+      const ssh = new SSH2Promise(options)
+      await ssh.connect()
+      console.log('Connected'.blue)
+
+      resolve(ssh)
+    })
   }
 
   async deploy(target, ip = [], config = null) {
-    let params = null;
-    let capsule = this;
-    let textMsg = null;
-    let output = null;
-    let ssh = null;
+    let params = null
+    let capsule = this
+    let textMsg = null
+    let output = null
+    let ssh = null
 
     try {
-      params = await this.parseConfig(target, config);
-    } catch (e) {
-      console.log(e.red.bold);
-      return;
+      params = await this.parseConfig(target, config)
+    } catch(e) {
+      console.log(e.red.bold)
+      return
     }
 
-    let currentServer = (ip.length > 0) ? ip : params.server.host;
+    let currentServer = (ip.length > 0) ? ip : params.server.host
 
     if (Array.isArray(currentServer) == false) {
-      currentServer = [params.server.host];
+      currentServer = [params.server.host]
     }
 
     async.eachSeries(currentServer, async function (s) {
-      params.server.host = s;
+      params.server.host = s
 
-      textMsg = `Start deploy ${target} [${s}]`;
-      console.log(textMsg.green.bold);
+      textMsg = `Start deploy ${target} [${s}]`
+      console.log(textMsg.green.bold)
 
-      ssh = await capsule.connect(params.server);
-      await ssh.exec('mkdir ' + params.full_path);
-      console.log('Created destination directory'.green);
+      ssh = await capsule.connect(params.server)
+      await ssh.exec('mkdir ' + params.full_path)
+      console.log('Created destination directory'.green)
 
-      console.log('Cloning git: ' + 'START'.yellow);
-      let spinner = ora('Pulling').start();
-      await ssh.exec('git clone', [params.git_server.host, params.full_path, '-b ' + params.git_branch + ' --depth 1 --quiet --single-branch']);
-      await ssh.exec('rm -rf', [params.full_path + '/.git', params.full_path + '/.gitignore']);
-      spinner.stop();
-      console.log('Cloning git: ' + 'DONE'.yellow);
+      console.log('Cloning git: ' + 'START'.yellow)
+      const spinner = ora('Pulling').start()
+      await ssh.exec('git clone', [params.git_server.host, params.full_path, '-b ' + params.git_branch + ' --depth 1 --quiet --single-branch'])
+      await ssh.exec('rm -rf', [params.full_path + '/.git', params.full_path + '/.gitignore'])
+      spinner.stop()
+      console.log('Cloning git: ' + 'DONE'.yellow)
 
       if (params.post_command) {
-        await capsule.execCommand(ssh, params.post_command, params.full_path);
+        await capsule.execCommand(ssh, params.post_command, params.full_path)
       }
 
-      await capsule.createSimlink(ssh, params.server.simlink, params.full_path);
+      await capsule.createSimlink(ssh, params.server.simlink, params.full_path)
 
       if (params.server.user_group) {
-        await ssh.exec('chown', ['-R', params.server.user_group, params.full_path]);
+        await ssh.exec('chown', ['-R', params.server.user_group, params.full_path])
       }
 
       if (params.server.version_limit) {
-        await capsule.limitVersion(ssh, params.server.version_limit, params.server.location);
+        await capsule.limitVersion(ssh, params.server.version_limit, params.server.location)
       }
 
-      await ssh.close();
-      console.log(`Close: ${s}`);
+      await ssh.close()
+      console.log(`Close: ${s}`)
     }, function (err) {
       if (err) {
-        ssh.close();
-        console.log((`<<<<<< ${err}`).red);
+        ssh.close()
+        console.log((`<<<<<< ${err}`).red)
       } else {
-        ssh.close();
-        console.log('DONE'.rainbow.bold);
+        ssh.close()
+        console.log('DONE'.rainbow.bold)
       }
-    });
+    })
   }
 
   async execCommand(ssh, commands, fullPath) {
     return new Promise(async function (resolve, reject) {
-      let output = null;
-      console.log(' Start Post-Command'.blue);
+      let output = null
+      console.log(' Start Post-Command'.blue)
 
       async.eachSeries(Object.keys(commands), async function (cmdName) {
-        let cmd = commands[cmdName];
-        let cmdWithPullPath = cmd.replace(/{dir}/g, fullPath);
+        let cmd = commands[cmdName]
+        let cmdWithPullPath = cmd.replace(/{dir}/g, fullPath)
 
-        output = await ssh.exec(cmdWithPullPath, ['>/dev/null 2>&1']);
-        console.log(`   ${cmdName}:` + 'DONE'.magenta);
+        output = await ssh.exec(cmdWithPullPath, ['>/dev/null 2>&1'])
+        console.log(`   ${cmdName}:` + 'DONE'.magenta)
 
       }, function (err) {
         if (err) {
-          console.log((`   <<<<<< ${err}`).red);
-          reject();
+          console.log((`   <<<<<< ${err}`).red)
+          reject()
         } else {
-          console.log(' End Post-Command'.blue);
-          resolve();
+          console.log(' End Post-Command'.blue)
+          resolve()
         }
-      });
+      })
     })
   }
 
   async createSimlink(ssh, shortCut, fullPath) {
     return new Promise(async function (resolve, reject) {
-      let output = null;
+      let output = null
 
-      output = await ssh.exec('ln -nfs', [fullPath, shortCut]);
-      console.log('Create Simlink: ' + 'DONE'.blue);
-      resolve();
-    });
+      output = await ssh.exec('ln -nfs', [fullPath, shortCut])
+      console.log('Create Simlink: ' + 'DONE'.blue)
+      resolve()
+    })
   }
 
   async limitVersion(ssh, versionLimit, sourcePath) {
-    let output = null;
-    let capsule = this;
+    let output = null
+    let capsule = this
 
     return new Promise(async function (resolve, reject) {
-      output = await ssh.exec('ls -t', [sourcePath]);
+      output = await ssh.exec('ls -t', [sourcePath])
 
-      let dirList = output.split("\n");
-      dirList = _.compact(dirList);
+      let dirList = output.split("\n")
+      dirList = _.compact(dirList)
 
       if (dirList.length < versionLimit) {
-        resolve();
-        return;
+        resolve()
+        return
       }
 
-      console.log(' Start Delete Olded version'.blue);
+      console.log(' Start Delete Olded version'.blue)
 
-      dirList = dirList.slice(versionLimit);
+      dirList = dirList.slice(versionLimit)
 
       async.eachSeries(dirList, async function (d) {
-        let dirWithPath = sourcePath + '/' + d;
-        await capsule.deleteDirectory(ssh, dirWithPath);
-        console.log(`   ${dirWithPath}` + ': Deleted'.magenta);
+        let dirWithPath = sourcePath + '/' + d
+        await capsule.deleteDirectory(ssh, dirWithPath)
+        console.log(`   ${dirWithPath}` + ': Deleted'.magenta)
 
       }, function (err) {
         if (err) {
-          console.log((`<<<<<< ${err}`).red);
-          reject();
+          console.log((`<<<<<< ${err}`).red)
+          reject()
         } else {
-          console.log(' End Delete Olded version'.blue);
-          resolve();
+          console.log(' End Delete Olded version'.blue)
+          resolve()
         }
-      });
-    });
+      })
+    })
   }
 
   async rollback(target, config = null) {
-    let params = await this.parseConfig(target, config);
-    let currentServer = params.server.host;
-    let capsule = this;
-    let textMsg = null;
-    let output = null;
-    let ssh = null;
+    let params = await this.parseConfig(target, config)
+    let currentServer = params.server.host
+    let capsule = this
+    let textMsg = null
+    let output = null
+    let ssh = null
 
     if (Array.isArray(currentServer) == false) {
-      currentServer = [currentServer];
+      currentServer = [currentServer]
     }
 
     async.eachSeries(currentServer, async function (s) {
-      params.server.host = s;
+      params.server.host = s
 
-      textMsg = `Start rollback ${target} [${s}]`;
-      console.log(textMsg.green.bold);
+      textMsg = `Start rollback ${target} [${s}]`
+      console.log(textMsg.green.bold)
 
-      ssh = await capsule.connect(params.server);
-      output = await ssh.exec('ls -tr', [params.server.location]);
+      ssh = await capsule.connect(params.server)
+      output = await ssh.exec('ls -tr', [params.server.location])
 
-      let dirList = output.split("\n");
-      dirList = _.compact(dirList);
+      let dirList = output.split("\n")
+      dirList = _.compact(dirList)
 
-      let current = dirList[dirList.length - 1];
-      let prev = dirList[dirList.length - 2];
+      let current = dirList[dirList.length - 1]
+      let prev = dirList[dirList.length - 2]
 
-      let currentPath = (current) ? params.server.location + '/' + current : null;
-      let prevPath = (prev) ? params.server.location + '/' + prev : null;
+      let currentPath = (current) ? params.server.location + '/' + current : null
+      let prevPath = (prev) ? params.server.location + '/' + prev : null
 
       if (currentPath && prevPath) {
-        await capsule.createSimlink(ssh, params.server.simlink, prevPath);
-        await capsule.deleteDirectory(ssh, currentPath);
+        await capsule.createSimlink(ssh, params.server.simlink, prevPath)
+        await capsule.deleteDirectory(ssh, currentPath)
       } else {
-        console.log('Current version is olded'.red);
+        console.log('Current version is olded'.red)
       }
 
-      ssh.close();
+      ssh.close()
     }, function (err) {
       if (err) {
-        ssh.close();
-        console.log((`<<<<<< ${err}`).red);
+        ssh.close()
+        console.log((`<<<<<< ${err}`).red)
       } else {
-        ssh.close();
-        console.log('DONE'.rainbow.bold);
+        ssh.close()
+        console.log('DONE'.rainbow.bold)
       }
-    });
+    })
   }
 
   async deleteDirectory(ssh, dir) {
     return new Promise(async function (resolve, reject) {
-      await ssh.exec('rm -rf', [dir, '>/dev/null 2>&1']);
-      resolve();
-    });
+      await ssh.exec('rm -rf', [dir, '>/dev/null 2>&1'])
+      resolve()
+    })
   }
 }
