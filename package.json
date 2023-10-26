@@ -1,6 +1,6 @@
 {
   "name": "capsulejs",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "description": "Easy deploy, rollback from git (bitbucket/github) to web server",
   "homepage": "https://github.com/iamlop/capsulejs",
   "keywords": [
@@ -18,7 +18,7 @@
     "colors": "^1.4.0",
     "dayjs": ">=1.11.10",
     "optimist": ">=0.6.1",
-    "ora": "^7.0.1",
+    "ora": "5.4.1",
     "ssh2-promise": ">=1.0.3",
     "underscore": ">=1.13.6"
   },
@@ -31,7 +31,7 @@
   },
   "bugs": {
     "url": "https://github.com/iamlop/capsulejs/issues",
-    "email": "iamlop@imageslum.net"
+    "email": "iamlop@gmail.com"
   },
   "bin": {
     "capsulejs": "./bin/app"
